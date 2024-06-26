@@ -1,0 +1,135 @@
+﻿@model QuizApp.ViewModels.QuizViewModel
+
+@{
+    ViewData["Title"] = "Create Quiz";
+}
+
+<h1>Create Quiz</h1>
+
+<h4>Quiz</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create" method="post" id="quizForm">
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <h4>Questions</h4>
+            <div id="questions">
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    <div class="question" data-index="@i">
+                        <div class="form-group">
+                            <label asp-for="Questions[i].Text" class="control-label">Question</label>
+                            <input asp-for="Questions[i].Text" class="form-control" required />
+                            <span asp-validation-for="Questions[i].Text" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Questions[i].OptionA" class="control-label">Option A</label>
+                            <input asp-for="Questions[i].OptionA" class="form-control" required />
+                            <span asp-validation-for="Questions[i].OptionA" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Questions[i].OptionB" class="control-label">Option B</label>
+                            <input asp-for="Questions[i].OptionB" class="form-control" required />
+                            <span asp-validation-for="Questions[i].OptionB" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Questions[i].OptionC" class="control-label">Option C</label>
+                            <input asp-for="Questions[i].OptionC" class="form-control" required />
+                            <span asp-validation-for="Questions[i].OptionC" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Questions[i].OptionD" class="control-label">Option D</label>
+                            <input asp-for="Questions[i].OptionD" class="form-control" required />
+                            <span asp-validation-for="Questions[i].OptionD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Questions[i].CorrectOption" class="control-label">Correct Option</label>
+                            <input asp-for="Questions[i].CorrectOption" class="form-control" required />
+                            <span asp-validation-for="Questions[i].CorrectOption" class="text-danger"></span>
+                        </div>
+                        <button type="button" class="btn btn-danger" onclick="removeQuestion(this)">Remove</button>
+                        <hr />
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary" onclick="addQuestion()">Add New Question</button>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        let questionIndex = @Model.Questions.Count;
+
+        function addQuestion() {
+            if (questionIndex >= 10) {
+                alert("You can add up to 10 questions.");
+                return;
+            }
+
+            const questionTemplate = `
+                                <div class="question" data-index="${questionIndex}">
+                                    <div class="form-group">
+                                        <label for="Questions_${questionIndex}__Text" class="control-label">Question</label>
+                                        <input name="Questions[${questionIndex}].Text" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Questions_${questionIndex}__OptionA" class="control-label">Option A</label>
+                                        <input name="Questions[${questionIndex}].OptionA" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Questions_${questionIndex}__OptionB" class="control-label">Option B</label>
+                                        <input name="Questions[${questionIndex}].OptionB" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Questions_${questionIndex}__OptionC" class="control-label">Option C</label>
+                                        <input name="Questions[${questionIndex}].OptionC" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Questions_${questionIndex}__OptionD" class="control-label">Option D</label>
+                                        <input name="Questions[${questionIndex}].OptionD" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Questions_${questionIndex}__CorrectOption" class="control-label">Correct Option</label>
+                                        <input name="Questions[${questionIndex}].CorrectOption" class="form-control" required />
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <button type="button" class="btn btn-danger" onclick="removeQuestion(this)">Remove</button>
+                                    <hr />
+                                </div>
+                            `;
+
+            document.getElementById('questions').insertAdjacentHTML('beforeend', questionTemplate);
+            questionIndex++;
+        }
+
+        function removeQuestion(button) {
+            const questionDiv = button.closest('.question');
+            questionDiv.remove();
+            questionIndex--;
+        }
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

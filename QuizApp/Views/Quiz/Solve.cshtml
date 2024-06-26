@@ -1,0 +1,57 @@
+﻿@model QuizApp.ViewModels.SolveQuizViewModel
+
+@{
+    ViewData["Title"] = "Solve Quiz";
+}
+
+<h1>@Model.Quiz.Title</h1>
+
+<h2>Question @(Model.QuestionIndex + 1)</h2>
+<p>@Model.Question.Text</p>
+
+<form asp-action="Solve" method="post">
+    <input type="hidden" asp-for="Quiz.Id" />
+    <input type="hidden" asp-for="QuestionIndex" />
+    <input type="hidden" asp-for="CorrectCount" />
+
+    <div>
+        <label>
+            <input type="radio" asp-for="SelectedOption" value="A" />
+            @Model.Question.OptionA
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="radio" asp-for="SelectedOption" value="B" />
+            @Model.Question.OptionB
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="radio" asp-for="SelectedOption" value="C" />
+            @Model.Question.OptionC
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="radio" asp-for="SelectedOption" value="D" />
+            @Model.Question.OptionD
+        </label>
+    </div>
+
+    <div>
+        @if (Model.QuestionIndex > 0)
+        {
+            <button type="submit" name="action" value="Previous">Previous</button>
+        }
+
+        @if (Model.QuestionIndex < Model.Quiz.Questions.Count - 1)
+        {
+            <button type="submit" name="action" value="Next">Next</button>
+        }
+        else
+        {
+            <button type="submit" name="action" value="Finish">Finish</button>
+        }
+    </div>
+</form>

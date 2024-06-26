@@ -1,0 +1,80 @@
+﻿@model QuizApp.ViewModels.QuizViewModel
+
+@{
+    ViewData["Title"] = "Edit Quiz";
+}
+
+<h1>Edit Quiz</h1>
+
+<h4>Quiz</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div>
+                <h4>Questions</h4>
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    <input type="hidden" name="Questions[@i].Id" value="@Model.Questions[i].Id" />
+                    <input type="hidden" name="Questions[@i].QuizId" value="@Model.Questions[i].QuizId" />
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Questions[i].Text" class="control-label"></label>
+                        <input asp-for="@Model.Questions[i].Text" class="form-control" name="Questions[@i].Text" required />
+                        <span asp-validation-for="@Model.Questions[i].Text" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Questions[i].OptionA" class="control-label"></label>
+                        <input asp-for="@Model.Questions[i].OptionA" class="form-control" name="Questions[@i].OptionA" required />
+                        <span asp-validation-for="@Model.Questions[i].OptionA" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Questions[i].OptionB" class="control-label"></label>
+                        <input asp-for="@Model.Questions[i].OptionB" class="form-control" name="Questions[@i].OptionB" required />
+                        <span asp-validation-for="@Model.Questions[i].OptionB" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Questions[i].OptionC" class="control-label"></label>
+                        <input asp-for="@Model.Questions[i].OptionC" class="form-control" name="Questions[@i].OptionC" required />
+                        <span asp-validation-for="@Model.Questions[i].OptionC" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Questions[i].OptionD" class="control-label"></label>
+                        <input asp-for="@Model.Questions[i].OptionD" class="form-control" name="Questions[@i].OptionD" required />
+                        <span asp-validation-for="@Model.Questions[i].OptionD" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="@Model.Questions[i].CorrectOption" class="control-label"></label>
+                        <input asp-for="@Model.Questions[i].CorrectOption" class="form-control" name="Questions[@i].CorrectOption" required />
+                        <span asp-validation-for="@Model.Questions[i].CorrectOption" class="text-danger"></span>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

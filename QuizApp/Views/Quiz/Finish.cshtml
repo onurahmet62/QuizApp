@@ -1,0 +1,13 @@
+﻿@model QuizApp.ViewModels.FinishQuizViewModel
+
+@{
+    ViewData["Title"] = "Quiz Result";
+}
+
+<h1>Quiz Result</h1>
+
+<h2>@Model.Quiz.Title</h2>
+
+<p>Your score is: @Model.Score</p>
+
+<a asp-action="Index">Back to Quiz List</a>
